@@ -8,6 +8,7 @@ export default function CadastroScreen({ navigation }){
   const [text, setName] = useState(null);
   const [tel, setTel] = useState(null);
   const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState("");
 
   const [checked, setChecked] = useState(false);
 
@@ -19,9 +20,10 @@ export default function CadastroScreen({ navigation }){
     <View style={styles.container}>
     <Image source = {require('../assets/borboleta.png')} style = {styles.borboleta} />
     <View style={styles.container2}>
+    
     <ScrollView>
-      <View style={styles.scroll}>
-    <Text style={styles.Title}>Cadastro</Text>
+     <View style={styles.scroll}>
+       <Text style = {styles.Title}> Cadastro </Text>
         <Text style={styles.subtitulo}> Crie a sua conta </Text>
     <View style = {styles.nome}>
       <Input type="text" style={styles.input}  placeholder="Nome"  placeholderTextColor="#49070A98"  leftIcon={{ type: 'font-awesome', name: 'user', color:'#49070A98'}} onChangeText={value => setName(value)} />
@@ -32,17 +34,21 @@ export default function CadastroScreen({ navigation }){
     <View style = {styles.email}>
       <Input style={styles.input}  placeholder="E-mail"  placeholderTextColor="#49070A98"  leftIcon={{ type: 'font-awesome', name: 'envelope', color:'#49070A98'}} onChangeText={value => setEmail(value)}  keyboardType='email-address'  />
     </View>
+    <View style={styles.senha}>
+      <Input style={styles.input} placeholder="Senha" placeholderTextColor="#49070A98" leftIcon={{ type: "font-awesome", name: "lock", color: "#49070A98" }} onChangeText={(value) => setPassword(value)} secureTextEntry={true} />
+    </View>
     <Image source = {require('../assets/linha.png')} style={styles.linha} />
     <View>
       <CheckBox title='Declaro que li e concordo com os Termos e Condições.' checked={checked} onPress={() => setChecked(!checked)} containerStyle={styles.checkboxContainer} textStyle={styles.checkboxText}  checkedColor='#49070A' uncheckedColor='#49070A80'/>
     </View>
-      <TouchableOpacity onPress={continuar}  style={styles.bottoncontinuar} >
-       <Text style={styles.continuar}> Continuar </Text>
+      <TouchableOpacity  style={styles.bottoncadastrar} >
+       <Text style={styles.cadastrar}> Cadastrar </Text>
       </TouchableOpacity>
       <Text onPress={() => navigation.navigate('Login')} style={styles.entrar}> Já tem uma conta? Entrar </Text>
       </View>
-      </ScrollView>
-      <View style={styles.espaco} />
+    </ScrollView>
+    
+    <View style={styles.espaco}></View>
     </View>
     </View>
   );
@@ -69,18 +75,25 @@ const styles = StyleSheet.create({
     height: 900,
     backgroundColor: '#FFEDE3',
     borderRadius: 30,
-    alignItems: 'center',
   },
-  titulo: {
-   marginTop: 30,
-   width: 255,
-   height: 35,
+  Title: {
+    fontSize: 65,
+    fontFamily: 'DMSerifDisplay_400Regular',
+    color: '#631C1C',
+    textAlign: 'center',
+    paddingTop: 12,
   },
   subtitulo:{
     fontSize: 18,    
     fontFamily: 'Inter_500Medium',
     color:'#49070A',
-    marginTop: 10,
+  },
+  scroll:{
+    width: '100%',
+    height: 900,
+    backgroundColor: '#FFEDE3',
+    borderRadius: 30,
+    alignItems: 'center',
   },
   input:{
     fontSize: 20,    
@@ -116,6 +129,16 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
   },
+  senha: {
+    backgroundColor: "#FFFFFF",
+    width: 350,
+    height: 80,
+    marginTop: 30,
+    borderWidth: 1,
+    borderColor: "#49070A",
+    borderRadius: 20,
+    padding: 10,
+  },
   linha:{
     width: 335,
     height: 1.5,
@@ -132,7 +155,7 @@ const styles = StyleSheet.create({
     color: '#49070A80',
     fontFamily: 'Inter_400Regular',
   },
-  bottoncontinuar:{
+  bottoncadastrar:{
     marginTop: 10,
     width: 250,
     height: 70,
@@ -142,7 +165,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  continuar:{
+  cadastrar:{
     color:'#FFEDE3',
     textAlign: 'center',
     fontSize: 25,
@@ -154,20 +177,6 @@ const styles = StyleSheet.create({
     color:'#112947',
     textDecorationLine: 'underline',
     marginTop: 8,
-  }, 
-  scroll:{
-    width: '100%',
-    height: 900,
-    backgroundColor: '#FFEDE3',
-    borderRadius: 30,
-    alignItems: 'center',
-  },
-   Title: {
-    fontSize: 65,
-    fontFamily: 'DMSerifDisplay_400Regular',
-    color: '#631C1C',
-    textAlign: 'center',
-    paddingTop: 12,
   },
   espaco: {
     width: '100%',
