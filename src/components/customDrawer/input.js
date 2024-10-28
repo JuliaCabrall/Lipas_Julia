@@ -1,91 +1,70 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Inter_700Bold,
-  Inter_500Medium,
-  Inter_600SemiBold,
-  Inter_400Regular,
-} from "@expo-google-fonts/inter";
-import {
-  DMSerifDisplay_400Regular,
-  DMSerifDisplay_400Regular_Italic,
-} from '@expo-google-fonts/dm-serif-display';
-import * as SplashScreen from "expo-splash-screen";
-import * as Font from "expo-font";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
+import { auth, db } from '../../services/firebase/conf';  // Certifique-se de importar corretamente seu módulo de firebase
+import { doc, getDoc } from 'firebase/firestore';
 
-SplashScreen.preventAutoHideAsync();
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
-import EvilIcons from 'react-native-vector-icons/EvilIcons'
-import { View, navigation, style, Text, ImageBackground, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import {
-  DrawerContentScrollView,
-  DrawerItemList,
-} from '@react-navigation/drawer';
-const CustomDrawer = props => {
-  const [appIsReady, setAppIsReady] = useState(false);
+const CustomDrawer = (props) => {
+  const [userName, setUserName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
 
   useEffect(() => {
-    async function prepare() {
-      try {
-        await Font.loadAsync({
-          Inter_700Bold,
-          Inter_500Medium,
-          Inter_600SemiBold,
-          Inter_400Regular,
-          DMSerifDisplay_400Regular,
-          DMSerifDisplay_400Regular_Italic,
-        });
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-      } catch (e) {
-        console.warn(e);
-      } finally {
-        setAppIsReady(true);
+    const fetchUserData = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const docRef = doc(db, 'Usuário', user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const userData = docSnap.data();
+          setUserName(userData.userName);
+          setUserEmail(userData.userEmail);
+        }
       }
-    }
-    prepare();
+    };
+    fetchUserData();
   }, []);
-   return(
-    <View style={{flex: 1}}>
+
+  return (
+    <View style={{ flex: 1 }}>
       <DrawerContentScrollView
-      {...props}
-      contentContainerStyle={{backgroundColor: '#FFEDE3'}}>
-      <Text
-      style={{
-        fontSize: 32,
-        textAlign: 'center',
-        marginVertical: 1,
-        fontFamily: 'DMSerifDisplay_400Regular',
-        color: "#49070A",
-        borderBottomWidth: 1,
-        borderColor: '#DDC2BB',
-      }}
-      >Menu</Text>
-      <View style={styles.container}>
-      <View style={styles.textContainer}>
-      <View style={styles.settingItem}>
-        <Image source={require('../../assets/imagem/juju-profile.jpeg')} style={styles.user} />
-        <View style={styles.textContainer}>
-          <Text style={styles.optionText}>Julia Cabral</Text>
-          <Text style={styles.optionStatus}>juliacabral@gmail.com</Text>
+        {...props}
+        contentContainerStyle={{ backgroundColor: '#FFEDE3' }}
+      >
+        <Text
+          style={{
+            fontSize: 32,
+            textAlign: 'center',
+            marginVertical: 1,
+            fontFamily: 'DMSerifDisplay_400Regular',
+            color: "#49070A",
+            borderBottomWidth: 1,
+            borderColor: '#DDC2BB',
+          }}
+        >
+          Menu
+        </Text>
+        <View style={styles.container}>
+          <View style={styles.textContainer}>
+            <View style={styles.settingItem}>
+              <Image source={require('../../assets/imagem/juju-profile.jpeg')} style={styles.user} />
+              <View style={styles.textContainer}>
+                <Text style={styles.optionText}>{userName}</Text>
+                <Text style={styles.optionStatus}>{userEmail}</Text>
+              </View>
+            </View>
+          </View>
         </View>
-</View>
-</View>
-</View>
-        <DrawerItemList {...props} 
-        />
+        <DrawerItemList {...props} />
       </DrawerContentScrollView>
       <TouchableOpacity style={styles.exitButton} onPress={() => navigation.navigate('Login')}>
         <Text style={styles.exitButtonText}>Sair</Text>
       </TouchableOpacity>
       <View>
-      <Text></Text>
-      
+        <Text></Text>
       </View>
-
     </View>
-   );
-}
+  );
+};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -145,3 +124,4 @@ exitButtonText: {
 },
 });
 export default CustomDrawer;
+
