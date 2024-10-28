@@ -6,7 +6,10 @@ const LeiSinalScreen = ({ navigation }) => {
   return (
     <View style = {styles.container}>
     <ScrollView>
-       <Image source = {require('../assets/tituloscards/titulo_leisinal.png')} style = {styles.titulo}/>
+    <Text style={styles.Title}>Sinal Vermelho</Text>
+    <Text style={styles.Title2}>Contra a</Text>
+    <Text style={styles.Title3}>Violência Doméstica</Text>
+    <Text style={styles.Titulo2}>Lei N°14.188/2021</Text>
 
     <View style = {styles.texto}>
        <Text style = {styles.paragrafo}> 
@@ -70,12 +73,34 @@ const styles = StyleSheet.create({
     marginTop: 50,
     position: 'absolute',
   },
-  titulo: {
-    width: 400,
-    height: 140,
-    marginTop: 150,
-    marginLeft: 6,
-    marginBottom: 30,
+  Title: {
+    fontSize: 48,
+    fontFamily: 'DMSerifDisplay_400Regular',
+    color: '#631C1C',
+    textAlign: 'center',
+
+    marginTop: 90,
+  },
+  Title2: {
+    fontSize: 48,
+    fontFamily: 'DMSerifDisplay_400Regular',
+    color: '#631C1C',
+    textAlign: 'center',
+    marginTop: 1,
+  },
+  Title3: {
+    fontSize: 40,
+    fontFamily: 'DMSerifDisplay_400Regular',
+    color: '#631C1C',
+    textAlign: 'center',
+    marginTop: 1,
+  },
+  Titulo2: {
+    fontSize: 24,
+    fontFamily: "Inter_500Medium",
+    color: '#631C1C',
+    textAlign: 'center',
+    marginTop: 1,
   },
   texto: {
     width: 400,

@@ -14,7 +14,7 @@ import * as Font from "expo-font";
 
 SplashScreen.preventAutoHideAsync();
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 const EmergencyContactTypeScreen = ({ navigation }) => {
     const [appIsReady, setAppIsReady] = useState(false);
 
@@ -40,8 +40,8 @@ const EmergencyContactTypeScreen = ({ navigation }) => {
   }, []);
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-        <Text style={styles.backButtonText}>{'<'}</Text>
+     <TouchableOpacity onPress={() => navigation.navigate('BotaoPanico')}>
+        <MaterialIcons name="arrow-back-ios" size={30} color="#fff" />
       </TouchableOpacity>
 
       <View style={styles.content}>
@@ -85,23 +85,27 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   content: {
-    backgroundColor: '#ffe6e6',
-    padding: 70,
+    width: '100%',
+    backgroundColor: '#FAE9E4',
     borderRadius: 16,
+    padding: 22,
+    elevation: 10,
+    height: '55%',
+    marginVertical: 157,
     alignItems: 'center',
-    marginTop: 80,
   },
   title: {
-    fontSize: 24,
+    fontSize: 26,
     fontFamily: 'Inter_600SemiBold',
     color: '#640F14',
     textAlign: 'center',
     marginBottom: 24,
+    marginVertical: 30,
   },
   button: {
     backgroundColor: '#640F14',
     paddingVertical: 15,
-    paddingHorizontal: 45,
+    paddingHorizontal: 60,
     borderRadius: 25,
     marginBottom: 16,
     alignItems: 'center',
@@ -109,25 +113,25 @@ const styles = StyleSheet.create({
   button2: {
     backgroundColor: '#49070A',
     paddingVertical: 15,
-    paddingHorizontal: 55,
+    paddingHorizontal: 70,
     borderRadius: 25,
     marginBottom: 16,
     alignItems: 'center',
   },
   buttonText: {
     color: '#FFEDE3',
-    fontSize: 16,
+    fontSize: 20,
     fontFamily: 'Inter_700Bold',
   },
   info: {
     marginTop: 20,
   },
   infoText: {
-    fontSize: 14,
-    textAlign: 'left',
+    fontSize: 15,
     marginBottom: 8,
     fontFamily: 'Inter_400Regular',
-    color: '49070A',
+    color: '#49070A',
+    textAlign: 'center',
   },
   bold: {
     fontFamily: 'Inter_700Bold',

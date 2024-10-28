@@ -6,7 +6,9 @@ const LeiImportunacaoScreen = ({ navigation }) => {
   return (
     <View style = {styles.container}>
     <ScrollView>
-       <Image source = {require('../assets/tituloscards/titulo_leiimportunacao.png')} style = {styles.titulo}/>
+    <Text style={styles.Title}>Importunação</Text>
+    <Text style={styles.Title2}>Sexual</Text>
+    <Text style={styles.Titulo2}>Lei N°13.718/2018</Text>
 
     <View style = {styles.texto}>
        <Text style = {styles.paragrafo}> 
@@ -60,12 +62,26 @@ const styles = StyleSheet.create({
     marginTop: 50,
     position: 'absolute',
   },
-  titulo: {
-    width: 330,
-    height: 120,
-    marginTop: 150,
-    marginLeft: 40,
-    marginBottom: 30,
+  Title: {
+    fontSize: 48,
+    fontFamily: 'DMSerifDisplay_400Regular',
+    color: '#631C1C',
+    textAlign: 'center',
+    paddingTop: 12,
+    marginTop: 90,
+  },
+  Title2: {
+    fontSize: 48,
+    fontFamily: 'DMSerifDisplay_400Regular',
+    color: '#631C1C',
+    textAlign: 'center',
+    marginTop: 1,
+  },
+  Titulo2: {
+    fontSize: 24,
+    fontFamily: "Inter_500Medium",
+    color: '#631C1C',
+    textAlign: 'center',
   },
   texto: {
     width: 400,

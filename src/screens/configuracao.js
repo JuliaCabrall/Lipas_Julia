@@ -13,12 +13,19 @@ import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
 
 SplashScreen.preventAutoHideAsync();
-import { View, Text, StyleSheet, TouchableOpacity, Image, Switch } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Switch, Modal } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome' 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import Entypo from 'react-native-vector-icons/Entypo'
 const ConfigScreen = ({ navigation }) => {
-  const [appIsReady, setAppIsReady] = useState(false);
+const [appIsReady, setAppIsReady] = useState(false);
+const [modalVisible, setModalVisible] = useState(false);
 
+const handleExit = () => {
+  // Aqui você pode adicionar a lógica de saída do app
+  console.log("Saindo do app...");
+  setModalVisible(false);
+};
   useEffect(() => {
     async function prepare() {
       try {
@@ -55,18 +62,7 @@ const ConfigScreen = ({ navigation }) => {
           <Text style={styles.optionText}>Tamanho da fonte</Text>
           <Text style={styles.optionStatus}>Padrão</Text>
         </View>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Fontsize')}>
-        <Text style={styles.arrow}>›</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.settingItem}>
-      <FontAwesome name="text-width" size={30} color="#49070A" />
-        <View style={styles.textContainer}>
-          <Text style={styles.optionText}>Tamanho da exibição</Text>
-          <Text style={styles.optionStatus}>Padrão</Text>
-        </View>
-        <TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('fontsize')}>
         <Text style={styles.arrow}>›</Text>
         </TouchableOpacity>
       </View>
@@ -77,25 +73,41 @@ const ConfigScreen = ({ navigation }) => {
           <Text style={styles.optionText}>Correção de cor</Text>
           <Text style={styles.optionStatus}>Desativado</Text>
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('cor')}>
         <Text style={styles.arrow}>›</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.exitButton} onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.exitButtonText}>Sair do App</Text>
+      <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.openButton}>
+        <Text style={styles.openButtonText}>Sair do App</Text>
       </TouchableOpacity>
 
-      <View style={styles.bottomMenu}>
-        <TouchableOpacity>
-          {/* Ícone de localização */}
-        </TouchableOpacity>
-        <TouchableOpacity>
-          {/* Ícone de som */}
-        </TouchableOpacity>
-        <TouchableOpacity>
-          {/* Ícone de documentos */}
-        </TouchableOpacity>
-      </View>
+      {/* Modal de confirmação */}
+      <Modal
+        visible={modalVisible}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setModalVisible(false)}
+        
+      >
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContainer}>
+          <Entypo name="log-out" size={40} color="#49070A" />
+            <Text style={styles.title}>Deseja sair do Lipa's?</Text>
+
+            <View style={styles.buttonGroup}>
+              {/* Botão "Sim" */}
+              <TouchableOpacity onPress={handleExit} style={styles.yesButton}>
+                <Text style={styles.buttonSim}>Sim</Text>
+              </TouchableOpacity>
+
+              {/* Botão "Não" */}
+              <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.noButton}>
+                <Text style={styles.buttonNo}>Não</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -201,6 +213,65 @@ icon: {
     fontSize: 40,
     color: '#49070A',
   },
+  openButton: {
+    backgroundColor: '#631C1C',
+    paddingVertical: 15,
+    borderRadius: 30,
+    alignItems: 'center',
+    marginTop: 250,
+    marginHorizontal: 60,
+  },
+  openButtonText: {
+    color: '#fff',
+    fontSize: 24,
+    fontFamily: 'Inter_700Bold',
+    marginEnd: 10,
+  },
+  modalBackground: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContainer: {
+    width: '80%',
+    backgroundColor: '#FAE9E4',
+    borderRadius: 15,
+    padding: 22,
+    alignItems: 'center',
+    elevation: 10,
+    height: '31%',
+  },
+  title: {
+    fontSize: 25,
+    fontFamily: 'Inter_700Bold',
+    color: '#49070A',
+    marginBottom: 2,
+    textAlign: 'center',
+    borderBottomWidth: 1,
+    borderColor: '#DDC2BB',
+    paddingVertical: 20,
+    alignItems: 'center',
+    width: '115%',
+  },
+  buttonGroup: {
+    width: '115%',
+  },
+  buttonSim: {
+    color: '#631C1C',
+    fontSize: 22,
+    fontFamily: 'Inter_600SemiBold',
+    textAlign: 'center',
+    borderBottomWidth: 1,
+    borderColor: '#DDC2BB',
+    paddingVertical: 14,
+  },
+  buttonNo:{
+    color: '#631C1C',
+    fontSize: 22,
+    fontFamily: 'Inter_600SemiBold',
+    textAlign: 'center',
+    paddingVertical: 8,
+  },
 });
-
 export default ConfigScreen;

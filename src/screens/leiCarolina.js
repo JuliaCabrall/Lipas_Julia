@@ -6,7 +6,9 @@ const LeiCarolinaScreen = ({ navigation }) => {
   return (
     <View style = {styles.container}>
     <ScrollView>
-       <Image source = {require('../assets/tituloscards/titulo_leicarolina.png')} style = {styles.titulo}/>
+    <Text style={styles.Title}>Carolina</Text>
+    <Text style={styles.Title2}> Dieckmann</Text>
+    <Text style={styles.Titulo2}>Lei N°12.737/2012</Text>
 
     <View style = {styles.texto}>
        <Text style = {styles.paragrafo}>
@@ -112,12 +114,27 @@ const styles = StyleSheet.create({
     marginTop: 50,
     position: 'absolute',
   },
-  titulo: {
-    width: 330,
-    height: 130,
-    marginTop: 150,
-    marginLeft: 35,
-    marginBottom: 30,
+  Title: {
+    fontSize: 48,
+    fontFamily: 'DMSerifDisplay_400Regular',
+    color: '#631C1C',
+    textAlign: 'center',
+
+    marginTop: 90,
+  },
+  Title2: {
+    fontSize: 48,
+    fontFamily: 'DMSerifDisplay_400Regular',
+    color: '#631C1C',
+    textAlign: 'center',
+    marginTop: 1,
+  },
+  Titulo2: {
+    fontSize: 24,
+    fontFamily: "Inter_500Medium",
+    color: '#631C1C',
+    textAlign: 'center',
+    marginTop: 1,
   },
   texto: {
     width: 400,

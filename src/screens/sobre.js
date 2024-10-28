@@ -1,19 +1,4 @@
 import React, { useState, useEffect} from 'react';
-import {
-  Inter_700Bold,
-  Inter_500Medium,
-  Inter_600SemiBold,
-  Inter_400Regular,
-} from "@expo-google-fonts/inter";
-import {
-  DMSerifDisplay_400Regular,
-  DMSerifDisplay_400Regular_Italic,
-} from '@expo-google-fonts/dm-serif-display';
-import * as SplashScreen from "expo-splash-screen";
-import * as Font from "expo-font";
-
-
-SplashScreen.preventAutoHideAsync();
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet, SafeAreaView } from 'react-native';
 
 const SobreScreen = ({ navigation }) => {
@@ -32,27 +17,6 @@ const SobreScreen = ({ navigation }) => {
       [section]: !prevState[section],
     }));
   };
-  useEffect(() => {
-    async function prepare() {
-      try {
-        await Font.loadAsync({
-          Inter_700Bold,
-          Inter_500Medium,
-          Inter_600SemiBold,
-          Inter_400Regular,
-          DMSerifDisplay_400Regular,
-          DMSerifDisplay_400Regular_Italic,
-        });
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-      } catch (e) {
-        console.warn(e);
-      } finally {
-        setAppIsReady(true);
-      }
-    }
-    prepare();
-  }, []);
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -112,7 +76,7 @@ const SobreScreen = ({ navigation }) => {
           
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.privacibutton} onPress={() => navigation.navigate('Politica')}>
+        <TouchableOpacity style={styles.privacibutton} onPress={() => navigation.navigate('Termos')}>
           <Text style={styles.buttonText}>Política de Privacidade</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -139,7 +103,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F7E5DC',
   },
   headerText: {
-    color: '#FFFFFF',
+    color: '#F7E5DC',
     fontSize: 24,
     fontWeight: 'bold',
   },
@@ -153,12 +117,12 @@ const styles = StyleSheet.create({
     paddingTop: 2,
     borderColor: '#DDC2BB',
     borderBottomWidth: 1,
-    paddingVertical: 35,
+    paddingVertical: 30,
     paddingTop: 1,
   },
   section: {
     marginHorizontal: 11,
-    marginVertical: 8,
+    marginVertical: 7,
     borderBottomWidth: 1,
     borderColor: '#DDC2BB',
     paddingVertical: 4,

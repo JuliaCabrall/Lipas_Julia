@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Inter_700Bold,
   Inter_500Medium,
@@ -13,25 +13,20 @@ import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
 
 SplashScreen.preventAutoHideAsync();
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
+
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 const ContatoComum = ({ navigation }) => {
-    
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [primaryPhone, setPrimaryPhone] = useState('');
   const [secondaryPhone, setSecondaryPhone] = useState('');
 
   const handleSubmit = () => {
-    // Validação simples
-    if (!name || !email || !primaryPhone) {
-      Alert.alert('Erro', 'Por favor, preencha todos os campos obrigatórios.');
-      return;
-    }
-    // Lógica para envio dos dados
-    Alert.alert('Sucesso', 'Contato de emergência cadastrado!');
+    Alert.alert('Obrigado', 'contato cadastrado!');
   };
   const [appIsReady, setAppIsReady] = useState(false);
 
@@ -57,13 +52,26 @@ const ContatoComum = ({ navigation }) => {
   }, []);
   return (
     <View style={styles.container}>
-      <Text style={styles.header}></Text>
+      {/* Header Navbar */}
+      <View style={styles.navbar}>
+        {/* Botão de menu à esquerda */}
+        <TouchableOpacity onPress={() => navigation.navigate('Contato')}>
+          <MaterialIcons name="arrow-back-ios" size={30} color="#FFEDE3" />
+        </TouchableOpacity>
+
+        {/* Título central */}
+        <Text style={styles.title}>Contato</Text>
+
+        {/* Ícone de usuário à direita */}
+        <Image source={require('../assets/borboleta.png')} style={styles.borboleta} />
+      </View>
+
       <Text style={styles.subheader}>
         Cadastre uma pessoa próxima e de confiança para ser seu contato de emergência.
       </Text>
 
       <View style={styles.inputContainer}>
-        <FontAwesome name="user-o" size={24} color="#641919"/>
+        <FontAwesome name="user-o" size={24} color="#641919" />
         <TextInput
           style={styles.input}
           placeholder="Nome*"
@@ -73,7 +81,7 @@ const ContatoComum = ({ navigation }) => {
       </View>
 
       <View style={styles.inputContainer}>
-        <MaterialCommunityIcons name="email-outline" size={24} color="#641919"/>
+        <MaterialCommunityIcons name="email-outline" size={24} color="#641919" />
         <TextInput
           style={styles.input}
           placeholder="Email*"
@@ -84,7 +92,7 @@ const ContatoComum = ({ navigation }) => {
       </View>
 
       <View style={styles.inputContainer}>
-        <SimpleLineIcons name="phone" size={24} color="#641919"/>
+        <SimpleLineIcons name="phone" size={24} color="#641919" />
         <TextInput
           style={styles.input}
           placeholder="Celular com DDD*"
@@ -95,7 +103,7 @@ const ContatoComum = ({ navigation }) => {
       </View>
 
       <View style={styles.inputContainer}>
-        <SimpleLineIcons name="phone" size={24} color="#641919"/>
+        <SimpleLineIcons name="phone" size={24} color="#641919" />
         <TextInput
           style={styles.input}
           placeholder="Outro Celular"
@@ -107,10 +115,10 @@ const ContatoComum = ({ navigation }) => {
 
       <View style={styles.instructionsContainer}>
         <Text style={styles.instructions}>
-        •Para que esta pessoa se torne seu contato, é preciso que ela aceite o convite que será enviado no número ou e-mail do cadastro.
+          • Para que esta pessoa se torne seu contato, é preciso que ela aceite o convite que será enviado no número ou e-mail do cadastro.
         </Text>
         <Text style={styles.instructions}>
-        •Lembre-se de conversar com a pessoa antes de cadastrá-la. É importante que ela esteja ciente que receberá pedidos de socorro.
+          • Lembre-se de conversar com a pessoa antes de cadastrá-la. É importante que ela esteja ciente que receberá pedidos de socorro.
         </Text>
       </View>
 
@@ -125,14 +133,30 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FAE9E4',
-    padding: 20,
+  },
+  navbar: {
+    width: '100%', // Faz a navbar ocupar toda a largura
+    height: 70, // Ajuste a altura se necessário
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#49070A',
+    paddingHorizontal: 8,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+  },
+  title: {
+    fontSize: 36,
+    color: '#FFEDE3',
+    fontFamily: 'DMSerifDisplay_400Regular', // Certifique-se de carregar a fonte correta
   },
   subheader: {
-    fontSize: 18,
+    fontSize: 20,
     color: '#641919',
-    marginBottom: 2,
+    marginBottom: 3,
     fontFamily: 'Inter_400Regular',
-    marginStart: 5,
+    marginStart: 32,
+    marginVertical: 30,
   },
   inputContainer: {
     flexDirection: 'row',
@@ -145,9 +169,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 20,
     marginTop: 15,
-  },
-  icon: {
-    marginRight: 10,
+    marginHorizontal: 23,
   },
   input: {
     flex: 1,
@@ -162,26 +184,32 @@ const styles = StyleSheet.create({
   },
   instructions: {
     fontSize: 16,
-    color: '49070A',
+    color: '#641919',
+    marginBottom: 2,
     fontFamily: 'Inter_500Medium',
-    color: '#49070A',
-    marginStart: 5,
+    marginStart: 35,
+    marginVertical: 5,
+    marginEnd: 28,
   },
   button: {
     backgroundColor: '#49070A',
     paddingVertical: 15,
     borderRadius: 30,
     alignItems: 'center',
-    marginTop: 25,
-    marginHorizontal: 65,
+    marginTop: 10,
+    marginHorizontal: 90,
   },
   buttonText: {
     color: '#FFEDE3',
     fontSize: 20,
     fontFamily: 'Inter_700Bold',
-    marginEnd: 10,
+  },
+  borboleta: {
+    width: 55,
+    height: 55,
+    marginStart: 175,
+    marginVertical: 2,
   },
 });
+
 export default ContatoComum;
-
-

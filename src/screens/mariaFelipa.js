@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   },
   texto: {
     fontSize: 0.087 * Dimensions.get("window").width,
-    color: "#FFECE3",
+    color: "#F5E8E0",
     fontFamily: "Inter_700Bold",
     marginHorizontal: 20,
     marginTop: height * 0.50,

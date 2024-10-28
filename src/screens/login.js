@@ -1,38 +1,24 @@
-import React, { useState, useEffect} from 'react';
-import {
-  Inter_700Bold,
-  Inter_500Medium,
-  Inter_600SemiBold,
-  Inter_400Regular,
-} from "@expo-google-fonts/inter";
-import {
-  DMSerifDisplay_400Regular,
-  DMSerifDisplay_400Regular_Italic,
-} from '@expo-google-fonts/dm-serif-display';
-import * as SplashScreen from "expo-splash-screen";
-import * as Font from "expo-font";
-
-SplashScreen.preventAutoHideAsync();
+import React, { useState } from 'react';
 import { View, Image, TouchableOpacity, Text, StyleSheet, Dimensions } from "react-native";
 import { Input } from "react-native-elements";
-import { auth } from '../services/firebase/conf';
 
-// api fake localhost
-const usersData = require("../services/api.json");
+import { auth } from '../services/firebase/conf';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+
 
 export default function Login({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [userEmail, setEmail] = useState("");
+  const [userSenha, setSenha] = useState("");
   const [error, setError] = useState("");
 
   const handleLogin = () => {
-    signInWithEmailAndPassword(auth, email, password)
+    signInWithEmailAndPassword(auth, userEmail, userSenha)
   .then((userCredential) => {
     // Signed in 
     const user = userCredential.user;
     console.log({user})
     if (user){
-      navigation.replace("home")
+      navigation.replace("Home")
     }
 
   })
@@ -42,28 +28,8 @@ export default function Login({ navigation }) {
   });
 
   };
-  const [appIsReady, setAppIsReady] = useState(false);
 
-  useEffect(() => {
-    async function prepare() {
-      try {
-        await Font.loadAsync({
-          Inter_700Bold,
-          Inter_500Medium,
-          Inter_600SemiBold,
-          Inter_400Regular,
-          DMSerifDisplay_400Regular,
-          DMSerifDisplay_400Regular_Italic,
-        });
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-      } catch (e) {
-        console.warn(e);
-      } finally {
-        setAppIsReady(true);
-      }
-    }
-    prepare();
-  }, []);
+
   return (
     <View style={styles.container}>
       <Image source={require("../assets/borboleta.png")} style={styles.borboleta} />
@@ -85,7 +51,7 @@ export default function Login({ navigation }) {
             placeholder="Senha"
             placeholderTextColor="#49070A98"
             leftIcon={{ type: "font-awesome", name: "lock", color: "#49070A98" }}
-            onChangeText={(value) => setPassword(value)}
+            onChangeText={(value) => setSenha(value)}
             secureTextEntry={true}
           />
         </View>
@@ -95,9 +61,6 @@ export default function Login({ navigation }) {
         <TouchableOpacity onPress={handleLogin} style={styles.bottonentrar}>
           <Text style={styles.entrar}>Entrar</Text>
         </TouchableOpacity>
-        <Text onPress={() => navigation.navigate("EsqueceuSenha")} style={styles.esqueceu}>
-          Esqueceu a senha?
-        </Text>
         <Image source={require("../assets/ou.png")} style={styles.ou} />
         <TouchableOpacity>
           <Image source={require("../assets/google.png")} style={styles.google} />

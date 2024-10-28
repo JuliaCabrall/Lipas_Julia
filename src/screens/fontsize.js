@@ -1,46 +1,50 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import Slider from '@react-native-community/slider';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-const FontSizeScreen = ({ navigation }) => {
-  const [fontSize, setFontSize] = useState(14);
+const FontSizeScreen = () => {
+  const [fontSize, setFontSize] = useState(18);
 
-  const increaseFontSize = () => {
-    if (fontSize < 30) {
-      setFontSize(fontSize + 2);
-    }
-  };
-
-  const decreaseFontSize = () => {
-    if (fontSize > 10) {
-      setFontSize(fontSize - 2);
-    }
-  };
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+        <View style={styles.navbar}>
+        {/* Botão de menu à esquerda */}
+        <TouchableOpacity onPress={() => navigation.navigate('Contato')}>
+          <MaterialIcons name="arrow-back-ios" size={30} color="#FFEDE3" />
+        </TouchableOpacity>
+
+        {/* Título central */}
+        <Text style={styles.title}>Tamanho da Fonte</Text>
+
+        {/* Ícone de usuário à direita */}
+        <Image source={require('../assets/borboleta.png')} style={styles.borboleta} />
       </View>
 
-      <View style={styles.sampleTextContainer}>
+      <View style={styles.textContainer}>
         <Text style={[styles.sampleText, { fontSize }]}>
-          Uma pesquisa realizada pelo site Violência Contra as Mulheres em Dados. Em março de 2023, o equivalente a 30 milhões de mulheres foram assediadas sexualmente no ano de 2022.
+          Uma pesquisa realizada pelo site Violência Contra as Mulheres em Dados. Em março de 2023, o equivalente a 30 milhões de mulheres foram assediadas sexualmente no ano de 2022. Com base nesses dados, decidiu-se trazer uma proposta de uma aplicação Web para amenizar/solucionar a escassez de seguranças públicas voltadas para o público feminino. {"\n\n"}
+          Observando o nosso cotidiano como mulheres, e vendo que na atual realidade brasileira, conclusões nos dizem que diversas complicações na segurança ditam as dificuldades que estas inseridas, assim identificamos a necessidade de interferência, que ateste a nossa liberdade, diante deste cenário o nosso aplicativo tem como objetivo trazer a automação para que nos gere feedbacks e fazendo aplicações que trazem a sensação de segurança imediata.
         </Text>
       </View>
-
-      <View style={styles.previewContainer}>
+     
+      <Slider
+        style={styles.slider}
+        minimumValue={12}
+        maximumValue={30}
+        value={fontSize}
+        onValueChange={(value) => setFontSize(value)}
+        minimumTrackTintColor="#A52A2A"
+        maximumTrackTintColor="#000000"
+      />
+      <View style={styles.sliderLabels}>
+        <Text style={styles.sliderLabel}>-A</Text>
         <Text style={styles.previewText}>Pré-visualização</Text>
-        <Text style={styles.preview}>Padrão</Text>
+        <Text style={styles.sliderLabelLarge}>+A</Text>
       </View>
-
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={decreaseFontSize}>
-          <Text style={styles.buttonText}>A-</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={increaseFontSize}>
-          <Text style={styles.buttonText}>A+</Text>
-        </TouchableOpacity>
-      </View>
-
-      <Text style={styles.instructionText}>Tornar o texto na tela menor ou maior</Text>
     </View>
   );
 };
@@ -49,83 +53,57 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#49070A',
-    padding: 20,
-  },
-  headerText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#832A25',
-    paddingVertical: 1,
-  },
-  sampleTextContainer: {
-    backgroundColor: '#631C1C',
-    padding: 20,
-    borderRadius: 10,
-    marginVertical: 20,
   },
   sampleText: {
-    color: '#FFF',
-    textAlign: 'justify',
-  },
-  previewContainer: {
-    flex: 1, 
-    backgroundColor: '#FFEDE3',
-    width: '112%',
-    height: 4000,
-    marginVertical: 659,
-    borderWidth:1,
-    borderColor: '#640F1480',
-    borderRadius: 50,
-    position: 'absolute',
-  },
-  text: {
-    fontSize: 190,
-    color: '#631C1C',
-    marginBottom: 16,
+    color: '#FFEDE3',
   },
   previewText: {
-    marginVertical: 15,
-    marginHorizontal: 20,
-    fontSize: 25,
-    fontWeight: 'bold',
-    color: '#631C1C',
-  },
-  preview: {
-    marginVertical: 3,
-    marginHorizontal: 175,
-    fontSize: 16,
-    fontWeight: 'light',
-    color: '#631C1C',
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginVertical: 20,
-  },
-  button: {
-    backgroundColor: '#800000',
-    padding: 10,
-    borderRadius: 5,
-    width: 60,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#FFF',
-    fontSize: 19,
-    fontWeight: 'bold',
-  },
-  instructionText: {
+    fontSize: 18,
+    color: '#000',
     textAlign: 'center',
-    color: '#631C1C',
-    fontSize: 14,
-    marginTop: 10,
+    marginVertical: 30,
   },
-  icon: {
-    marginVertical: 32,
-    marginHorizontal: 10,
+  sliderLabels: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    alignItems: 'center',
+    width: '100%',
+    backgroundColor: '#FAE9E4',
+    borderRadius: 30,
+    padding: 2,
+    elevation: 10,
+    height: '40%',
+    marginVertical: 90,
+  },
+  sliderLabel: {
+    fontSize: 18,
+  },
+  sliderLabelLarge: {
+    fontSize: 24,
+  },
+  navbar: {
+    width: '100%', // Faz a navbar ocupar toda a largura
+    height: 75, // Ajuste a altura se necessário
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#640F14',
+    paddingHorizontal: 9,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+  },
+  title: {
+    fontSize: 35,
+    color: '#FFEDE3',
+    fontFamily: 'DMSerifDisplay_400Regular', // Certifique-se de carregar a fonte correta
+  },
+   borboleta: {
+    width: 55,
+    height: 50,
+    marginStart: 19,
+    marginVertical: 13,
   },
 });
 
 export default FontSizeScreen;
-    
