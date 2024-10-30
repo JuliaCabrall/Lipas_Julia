@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, ScrollView, Modal } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { auth, db } from '../services/firebase/conf';
+import { auth, db, storage } from '../services/firebase/conf';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
+import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
 
 export default function ProfileScreen() {
   const [image, setImage] = useState(null);
@@ -18,6 +19,7 @@ export default function ProfileScreen() {
   const [isEditingEmail, setIsEditingEmail] = useState(false);
   const [isEditingPhone, setIsEditingPhone] = useState(false);
   const [isEditingSenha, setIsEditingSenha] = useState(false);
+  const [progress, setProgress ] = useState(0);
 
   // Estados temporários para armazenar o valor enquanto edita
   const [newName, setNewName] = useState('');
@@ -57,11 +59,32 @@ export default function ProfileScreen() {
   const toggleEditSenha = () => setIsEditingSenha(!isEditingSenha);
 
   const handleSave = async () => {
-    if (validateEmail(newEmail) && validatePhone(newPhone)) {
+    if (validateEmail(newEmail) && validatePhone(newPhone) && image) { 
+      const blob = await new Promise<Blob | null>((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+          resolve(xhr.response);
+        };
+        xhr.onerror = function () {
+          reject(new TypeError('Network request failed'));
+        };
+        xhr.responseType = 'blob';
+        xhr.open('GET', image, true);
+        xhr.send(null);
+      });
+  
+      if (!blob) {
+        setLoading(false);
+        return;
+      }
+  
+      const uploadUri = image;
+      const filename = upload
       try {
         const user = auth.currentUser;
         const userDocRef = doc(db, "Usuário", user.uid);
         await setDoc(userDocRef, {
+          userImagem: filename,
           userName: newName,
           userEmail: newEmail,
           userNumCel: newPhone,
@@ -103,10 +126,45 @@ export default function ProfileScreen() {
       aspect: [4, 3],
       quality: 1,
     });
-
-    console.log(result);
-
     if (!result.canceled) {
+      setImage(result.assets[0]?.uri);
+   }
+    console.log(result);
+    const blob = await new Promise<Blob | null>((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function () {
+        reject(new TypeError('Network request failed'));
+      };
+      xhr.responseType = 'blob';
+      xhr.open('GET', result.assets[0]?.uri, true);
+      xhr.send(null);
+    });
+
+    if (!blob) {
+      
+      return;
+    }
+
+ 
+    if (!result.canceled) {
+      const mountainsRef = ref(storage, result.assets[0].fileName);
+      const uplodeImagem = uploadBytesResumable(mountainsRef, blob);
+      uplodeImagem.on(
+        "state_changed", 
+        snapshot=> {
+         const progress = (snapshot.bytesTransferred/snapshot.totalBytes) *100
+         setProgress(progress)
+        },
+        ()=>{
+          getDownloadURL(uplodeImagem.snapshot.ref).then(url=>{
+            setImage(url)
+          })
+        }
+      )
+      console.log(mountainsRef)
       setImage(result.assets[0].uri);
     }
   };
